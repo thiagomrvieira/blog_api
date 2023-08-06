@@ -3,18 +3,18 @@ class PostsController < ApplicationController
     
     def index
         @posts = Post.all
-        render json: @posts
+        render json: @posts, each_serializer: PostSerializer
     end
     
     def show
-        render json: @post
+        render json: @post, each_serializer: PostSerializer
     end
     
     def create
         @post = Post.new(post_params)
     
         if @post.save
-            render json: @post, status: :created, location: @post
+            render json: @post, status: :created, location: @post, each_serializer: PostSerializer
         else
             render json: @post.errors, status: :unprocessable_entity
         end
@@ -22,7 +22,7 @@ class PostsController < ApplicationController
     
     def update
         if @post.update(post_params)
-            render json: @post
+            render json: @post, each_serializer: PostSerializer
         else
             render json: @post.errors, status: :unprocessable_entity
         end
